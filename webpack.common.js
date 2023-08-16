@@ -1,6 +1,7 @@
 const path = require("path");
 const HTMLPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin");
+const {CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -9,7 +10,7 @@ module.exports = {
         background: path.resolve('src/background/background.ts'),
         contentScript: path.resolve('src/contentScript/contentScript.ts'),
     },
-    mode: "production",
+    
     module: {
         rules: [
             {
@@ -38,6 +39,9 @@ module.exports = {
         ],
     },
     plugins: [
+        new CleanWebpackPlugin({
+            cleanStaleWebpackAssets: false,
+        }),
         new CopyPlugin({
             patterns: [
                 { from: path.resolve('src/static'), to: path.resolve('dist') }      
