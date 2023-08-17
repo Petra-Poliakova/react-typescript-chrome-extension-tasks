@@ -1,10 +1,109 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './popup.css';
 
-function Popup() {
+interface  Task{ 
+ id: string,
+ text: string;
+}
+
+function Popup() { 
+const [tasks, setTasks] = useState<Task[]>([]);
+const [newTask, setNewTask] = useState('');
+const [time, setTime] = useState(0);
+
+// useEffect(()=>{
+//   chrome.storage.local.get(['tasks', 'timer'], (result)=> {
+//     if (result.tasks) {
+//       setTasks(result.tasks);
+//     }
+//     if (result.timer !== undefined) {
+//       setTime(result.timer)
+//     }
+//   })
+// },[]);
+
+useEffect(()=>{
+  chrome.storage.local.get(['tasks'], (result)=> {
+    if (result.tasks) {
+      setTasks(result.tasks);
+    }
+  })
+},[]);
+
+useEffect(()=> {
+  setInterval(()=>updatedTime(), 1000 )
+}, [time]);
+
+const updatedTime = () => {
+  chrome.storage.local.get(["timer"], (res) => {
+    if (res.timer !== undefined) {
+      setTime(res.timer)
+    }
+    
+  })
+}
+
+const startTimerBtn = () => {
+  chrome.storage.local.set({
+    isRunning: true,
+  })
+}
+
+const stopTimerBtn = () => {
+  chrome.storage.local.set({
+    isRunning: false,
+  })
+}
+
+const resetTimerBtn = () => {
+  chrome.storage.local.set({
+    timer: 0,
+    isRunning: false,
+  })
+}
+
+const addTask = () => {
+  if(newTask.trim() === '') return;
+  const newTaskItem = {id: new Date().toISOString(),text: newTask};
+  const updatedTasks  = [...tasks, newTaskItem]
+  setTasks(updatedTasks );
+  chrome.storage.local.set({ tasks: updatedTasks });
+  setNewTask('');
+}
+
+const removeTask = (taskId: string) => {
+ const updatedTasks  = tasks.filter((task) => task.id !== taskId);
+ setTasks(updatedTasks );
+ chrome.storage.local.set({tasks: updatedTasks });
+}
+
   return (
     <div className="Popup">
-     <h1>Hello world</h1>
+     <h1>Task Timer</h1>
+     <div className='imgBox'>
+      <img src="icon.png" alt="timer" />
+      </div>
+      <div><h2>{time}</h2></div>
+      <div className='timerBtn'>
+        <button onClick={startTimerBtn}>Start</button>
+        <button onClick={stopTimerBtn}>Stop</button>
+        <button onClick={resetTimerBtn}>Reset</button>
+      </div>
+      <div className='addTaskBox'>
+        <input type="text" placeholder='Enter a task..' value={newTask} onChange={(e)=> setNewTask(e.target.value)}/>
+        <button onClick={addTask}>Add</button>
+      </div>
+      <div className='taskList'>
+       <ul>
+        {tasks.map((task, i)=> (
+          <li className='taskItem' key={i}>
+            <div className='task'>{task.text}</div>
+            <button className='removeBtn' onClick={()=> removeTask(task.id)}>X</button>
+          </li>
+        ))}
+       </ul>
+       
+      </div>
     </div>
   );
 }

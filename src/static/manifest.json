@@ -1,30 +1,31 @@
 {
     "version": "1.0.0",
     "manifest_version": 3,
-    "name": "React Chrome Extension",
-    "description": "This is a Chrome extension built with React and TypeScript",
+    "name": "Task Timer",
+    "description": "Helps your focus and get things done!",
     "icons": {
         "16": "icon.png",
         "48": "icon.png",
         "128": "icon.png"
       },
     "action": {
-        "default_icon": {              
-      "16": "icon.png",  
-      "24": "icon.png",   
-      "32": "icon.png"    
-    },
+        "default_icon": "icon.png",
         "default_popup": "popup.html",
-        "default_title": "React Chrome Extension"
+        "default_title": "Task Timer"
     },
     "options_page": "options.html",
     "background": {
       "service_worker": "background.js"
-  },
+    },
   "content_scripts": [
       {
           "matches": ["<all_urls>"],
           "js": ["contentScript.js"]
       }
+  ],
+    "permissions": [
+    "storage",
+    "alarms",
+    "notifications"
   ]
 }

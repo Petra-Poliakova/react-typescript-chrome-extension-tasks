@@ -5,7 +5,7 @@ import Popup from './popup';
 // const root = ReactDOM.createRoot(
 //   document.getElementById('root') as HTMLElement
 // );
-// Neviem prečo sa to prepisuje takto: - lebo vyskakuje hláška že je nebezpečné renderovať do body
+//vyskakuje hláška že je nebezpečné renderovať do body
 const root = document.createElement("div")
 root.className = "container"
 document.body.appendChild(root)

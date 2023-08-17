@@ -7,5 +7,79 @@
 
 .container {
   width: 15rem;
-  height: 15rem;
+  height: auto;
+  padding: 15px;
+}
+
+.imgBox{
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+}
+
+.imgBox img {
+  width: 100%;
+  height: auto;
+}
+
+.timerBtn button{
+  margin: 0 5px 15px 5px;
+  padding: 5px 10px;
+  background-color: cadetblue;
+  border: none;
+  color:white;
+}
+
+.addTaskBox {
+  display: flex;
+  margin: 10px 0;
+  flex-direction: row;
+  justify-content: center;
+  width: 90%;
+}
+.addTaskBox input{
+  background-color: white;
+  border: 2px solid cadetblue;
+  color: cadetblue;
+}
+.addTaskBox button{
+  padding: 5px;
+  border: 2px solid cadetblue;
+  background-color: cadetblue;
+  color: white;
+}
+
+.taskList {
+ width: 90%;
+ display: flex;
+ justify-content: center;
+}
+.taskList ul {
+  padding-inline-start: 0px;
+  width: 100%;
+}
+.taskList li {
+  list-style: none;
+  margin: 5px 0;
+}
+.taskItem {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  text-align: start;
+  gap:10px;
+}
+.task{
+  width: 80%;
+  border-radius: 3px;
+  padding: 5px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+.removeBtn{
+  width: 20%;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  background-color: cadetblue;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
