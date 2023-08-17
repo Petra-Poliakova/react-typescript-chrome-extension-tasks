@@ -3,13 +3,18 @@ import './popup.css';
 
 interface  Task{ 
  id: string,
- text: string;
+ text: string
+}
+
+interface TimerData {
+  minutes: number,
+  seconds: string
 }
 
 function Popup() { 
 const [tasks, setTasks] = useState<Task[]>([]);
 const [newTask, setNewTask] = useState('');
-const [time, setTime] = useState(0);
+const [time, setTime] = useState<TimerData>({ minutes: 25, seconds: "00" });
 
 // useEffect(()=>{
 //   chrome.storage.local.get(['tasks', 'timer'], (result)=> {
@@ -34,14 +39,25 @@ useEffect(()=> {
   setInterval(()=>updatedTime(), 1000 )
 }, [time]);
 
-const updatedTime = () => {
-  chrome.storage.local.get(["timer"], (res) => {
-    if (res.timer !== undefined) {
-      setTime(res.timer)
-    }
+// const updatedTime = () => {
+//   chrome.storage.local.get(["timer"], (res) => {
+//     if (res.timer !== undefined) {
+//       setTime(res.timer)
+//     }
     
-  })
-}
+//   })
+// }
+const updatedTime = () => {
+    chrome.storage.local.get(["timer"], (res) => {
+      const minutes =  25 - Math.ceil(res.timer / 60);
+      let seconds = "00";
+      if (res.timer % 60 !== 0) {
+       seconds = (60 - (res.timer % 60)).toString().padStart(2, "0");
+      }
+      setTime({ minutes, seconds })
+      
+    })
+  }
 
 const startTimerBtn = () => {
   chrome.storage.local.set({
@@ -83,7 +99,7 @@ const removeTask = (taskId: string) => {
      <div className='imgBox'>
       <img src="icon.png" alt="timer" />
       </div>
-      <div><h2>{time}</h2></div>
+      <div><h2>{`${time.minutes}:${time.seconds}`}</h2></div>
       <div className='timerBtn'>
         <button onClick={startTimerBtn}>Start</button>
         <button onClick={stopTimerBtn}>Stop</button>
