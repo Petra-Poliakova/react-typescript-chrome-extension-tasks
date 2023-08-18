@@ -7,14 +7,14 @@ interface  Task{
 }
 
 interface TimerData {
-  minutes: number,
+  minutes: string,
   seconds: string
 }
 
 function Popup() { 
 const [tasks, setTasks] = useState<Task[]>([]);
 const [newTask, setNewTask] = useState('');
-const [time, setTime] = useState<TimerData>({ minutes: 25, seconds: "00" });
+const [time, setTime] = useState<TimerData>({ minutes: "25", seconds: "00" });
 
 // useEffect(()=>{
 //   chrome.storage.local.get(['tasks', 'timer'], (result)=> {
@@ -49,7 +49,8 @@ useEffect(()=> {
 // }
 const updatedTime = () => {
     chrome.storage.local.get(["timer"], (res) => {
-      const minutes =  25 - Math.ceil(res.timer / 60);
+      //res.timer = 60 * 24 + 55;
+      const minutes =  (25 - Math.ceil(res.timer / 60)).toString().padStart(2,"0");
       let seconds = "00";
       if (res.timer % 60 !== 0) {
        seconds = (60 - (res.timer % 60)).toString().padStart(2, "0");
