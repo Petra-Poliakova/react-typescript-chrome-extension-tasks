@@ -1,0 +1,11 @@
+h1 {
+    color:cadetblue;
+   }
+
+   button{
+    margin: 0 5px 15px 5px;
+    padding: 5px 10px;
+    background-color: cadetblue;
+    border: none;
+    color:white;
+  }   

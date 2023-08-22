@@ -14,43 +14,25 @@ interface TimerData {
 function Popup() { 
 const [tasks, setTasks] = useState<Task[]>([]);
 const [newTask, setNewTask] = useState('');
-const [time, setTime] = useState<TimerData>({ minutes: "25", seconds: "00" });
-
-// useEffect(()=>{
-//   chrome.storage.local.get(['tasks', 'timer'], (result)=> {
-//     if (result.tasks) {
-//       setTasks(result.tasks);
-//     }
-//     if (result.timer !== undefined) {
-//       setTime(result.timer)
-//     }
-//   })
-// },[]);
+const [time, setTime] = useState<TimerData>({ minutes: "", seconds: "" });
 
 useEffect(()=>{
   chrome.storage.local.get(['tasks'], (result)=> {
     if (result.tasks) {
       setTasks(result.tasks);
     }
-  })
+  });
 },[]);
 
 useEffect(()=> {
-  setInterval(()=>updatedTime(), 1000 )
+  //setInterval(()=>updatedTime(), 1000 )
+  updatedTime();
 }, [time]);
 
-// const updatedTime = () => {
-//   chrome.storage.local.get(["timer"], (res) => {
-//     if (res.timer !== undefined) {
-//       setTime(res.timer)
-//     }
-    
-//   })
-// }
 const updatedTime = () => {
-    chrome.storage.local.get(["timer"], (res) => {
-      //res.timer = 60 * 24 + 55;
-      const minutes =  (25 - Math.ceil(res.timer / 60)).toString().padStart(2,"0");
+    chrome.storage.local.get(["timer", "timeOption", "isRunning"], (res) => {
+      //const minutes =  (25 - Math.ceil(res.timer / 60)).toString().padStart(2,"0");
+      const minutes = (res.timeOption - Math.ceil(res.timer / 60)).toString().padStart(2,"0");
       let seconds = "00";
       if (res.timer % 60 !== 0) {
        seconds = (60 - (res.timer % 60)).toString().padStart(2, "0");
@@ -100,7 +82,7 @@ const removeTask = (taskId: string) => {
      <div className='imgBox'>
       <img src="icon.png" alt="timer" />
       </div>
-      <div><h2>{`${time.minutes}:${time.seconds}`}</h2></div>
+      <div><h2>{time.minutes !== "" && time.seconds !== "" ? `${time.minutes}:${time.seconds}` : ""}</h2></div>
       <div className='timerBtn'>
         <button onClick={startTimerBtn}>Start</button>
         <button onClick={stopTimerBtn}>Stop</button>
