@@ -2,7 +2,7 @@
 Task Timer is a timer extension featuring a 25-minute timer, the option to set a time from 1 to 60 minutes, and the capability to add and delete tasks. Inspired by Jason Xian's Udemy course, this extension is a collaborative project designed to help you effectively organize time, track tasks, and enhance productivity.
 
 ## Preview:
-![Popup screen](./imgForGit/popup.png)
+![Popup screen]("imgForGit/popup.png")
 ![Options screen](imgForGit/options.png)
 ![Notification screen](imgForGit/notification.png)
 
